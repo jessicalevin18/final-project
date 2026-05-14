@@ -1,5 +1,6 @@
 # Flask On Docker
-![Build Status](https://github.com/jessicalevin18/flask-on-docker/actions/workflows/dev.yml/badge.svg)
+![Build Status](https://github.com/jessicalevin18/final-project/actions/workflows/dev.yml/badge.svg)
+![Build Status](https://github.com/jessicalevin18/final-project/actions/workflows/prod.yml/badge.svg)
 
 ## Overview
 

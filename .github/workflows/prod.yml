@@ -1,0 +1,31 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        env:
+          - COMPOSE_FILE=docker-compose.dev.yml
+          - COMPOSE_FILE=docker-compose.prod.yml
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build containers
+        run: docker compose -f $COMPOSE_FILE build
+      - name: Bring up containers
+        run: docker compose -f $COMPOSE_FILE up -d
+      - name: Check for errors
+        run: |
+          if [ -n "$(docker logs -t --since 1m --tail 100 | grep 'error\|panic')" ]; then
+            echo "Errors found in container logs"
+            exit 1
+          fi
+      - name: Bring down containers
+        run: docker compose -f $COMPOSE_FILE down
